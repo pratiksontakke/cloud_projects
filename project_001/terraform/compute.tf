@@ -38,13 +38,13 @@ resource "aws_security_group" "ec2" {
   }
 
   # (Optional) Allow SSH only from specific bastion/admin SG or IP - for debug only if not using SSM
-  # ingress {
-  #   description = "Allow SSH from admin IP"
-  #   from_port   = 22
-  #   to_port     = 22
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["YOUR_IP_ADDRESS/32"] # Replace with your IP
-  # }
+  ingress {
+    description = "Allow SSH from admin IP"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Replace with your IP
+  }
 
   # Egress: Allow outbound traffic to the RDS Security Group on the PostgreSQL port
   egress {
@@ -128,7 +128,7 @@ resource "aws_launch_template" "app" {
     project_name       = var.project_name
     environment        = var.environment
   }))
-  
+
   # Metadata options (optional but recommended for security)
   metadata_options {
     http_endpoint               = "enabled"

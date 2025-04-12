@@ -27,6 +27,8 @@ output "nat_gateway_eip" {
   value       = aws_eip.nat.public_ip
 }
 
+
+
 output "alb_dns_name" {
   description = "The DNS name of the Application Load Balancer."
   value       = aws_lb.main.dns_name
@@ -78,7 +80,15 @@ output "db_credentials_secret_arn" {
   value       = aws_secretsmanager_secret.db_credentials.arn
 }
 
+output "db_credentials_secret_password" {
+  description = "password of db"
+  value       = aws_db_instance.main.password
+}
 
+output "db_credentials_secret_username" {
+  description = "username of db."
+  value       = aws_db_instance.main.username
+}
 # outputs.tf (Add this output)
 
 output "autoscaling_group_name" {
@@ -99,3 +109,4 @@ output "cloudwatch_dashboard_name" {
   description = "The name of the CloudWatch Dashboard."
   value       = aws_cloudwatch_dashboard.main.dashboard_name
 }
+

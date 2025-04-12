@@ -83,7 +83,7 @@ variable "ami_owner" {
 variable "ami_filter_name" {
   description = "Name filter for AMI lookup (e.g., 'amzn2-ami-hvm-*-x86_64-gp2')."
   type        = string
-  default     = "amzn2-ami-hvm-*-x86_64-gp2" # Example for Amazon Linux 2
+  default     = "Amazon Linux 2023 AMI" # Example for Amazon Linux 2
   # Use 'ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*' for Ubuntu 20.04 LTS
 }
 
@@ -93,7 +93,7 @@ variable "app_source_url" {
   # Example: "https://github.com/your-username/your-simple-app.git"
   # For this project, you NEED to provide a URL to a simple web app boilerplate
   # that reads DB config from environment variables and listens on port 3000.
-  default = "https://github.com/hashicorp/learn-terraform-provision-ansible-ec2.git" # Placeholder! Use a real simple webapp
+  default = "https://github.com/pratiksontakke/cloud_projects/tree/master/project_001" # Placeholder! Use a real simple webapp
 }
 
 variable "app_port" {

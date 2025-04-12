@@ -66,61 +66,6 @@ resource "aws_lb" "main" {
   }
 }
 
-# --- Target Group for EC2 Instances ---
-resource "aws_lb_target_group" "app" {
-  name        = "${var.project_name}-TG"
-  # Port and Protocol define how the ALB connects to the backend instances
-  port        = 80 # IMPORTANT: Change this to your actual application's port (e.g., 3000, 8080)
-  protocol    = "HTTP"
-  vpc_id      = aws_vpc.main.id
-  target_type = "instance" # We will register EC2 instances with this TG later
-
-  # Health Check Settings: ALB uses these to determine if an instance is healthy
-  # Thinking: Check a specific path on the instance. Adjust path, interval, thresholds based on application behavior.
-  health_check {
-    enabled             = true
-    path                = "/health" # Default path, change if your app has a specific /health endpoint
-    protocol            = "HTTP"
-    port                = "traffic-port" # Use the same port defined above for the TG
-    healthy_threshold   = 3              # Number of consecutive successes to be considered healthy
-    unhealthy_threshold = 3              # Number of consecutive failures to be considered unhealthy
-    timeout             = 5              # Seconds to wait for a response
-    interval            = 30             # Seconds between health checks per instance
-    matcher             = "200-299"      # HTTP status codes indicating success
-  }
-
-  tags = {
-    Name        = "${var.project_name}-TG"
-    Environment = var.environment
-    Terraform   = "true"
-  }
-
-  # Lifecycle rule: Helps avoid downtime during updates that require replacing the Target Group
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-# --- ALB Listener for HTTP Traffic ---
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.main.arn # Attach to the ALB created above
-  port              = 80
-  protocol          = "HTTP"
-
-  # Default Action: What to do with incoming traffic? Forward it to our Target Group.
-  # Thinking: This connects the listener to the backend pool.
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app.arn
-  }
-
-  # We will add another listener for HTTPS (port 443) later using ACM certificate
-}
-
-
-
-
-
 # alb.tf (Modify the aws_lb_target_group.app resource)
 
 resource "aws_lb_target_group" "app" {
