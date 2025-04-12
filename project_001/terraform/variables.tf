@@ -33,3 +33,80 @@ variable "num_azs" {
   # Why 3 AZs? Provides better high availability than 2. If one AZ fails,
   # resources (ALB, ASG, RDS Multi-AZ standby) still operate across two healthy AZs.
 }
+
+# variables.tf (Add these variables)
+
+variable "db_name" {
+  description = "The name of the PostgreSQL database to create."
+  type        = string
+  default     = "project01db" # Example name, make it descriptive
+}
+
+variable "db_username" {
+  description = "The master username for the PostgreSQL database."
+  type        = string
+  default     = "dbadmin"
+  # Avoid common names like 'postgres' or 'admin' if possible for slight security improvement.
+}
+
+# Note: db_password is not defined here; it will be generated randomly.
+
+variable "db_instance_class" {
+  description = "The instance class for the RDS database."
+  type        = string
+  default     = "db.t3.micro"
+  # Why db.t3.micro? It's often included in the AWS Free Tier for new accounts (subject to terms).
+  # Check current AWS Free Tier details. For better price/performance non-free tier, consider Graviton (e.g., "db.t4g.micro").
+}
+
+variable "db_allocated_storage" {
+  description = "The allocated storage size in GB for the RDS database."
+  type        = number
+  default     = 20
+  # Free Tier typically includes up to 20GB of General Purpose (SSD) storage.
+}
+
+# variables.tf (Add these variables)
+
+variable "ec2_instance_type" {
+  description = "EC2 instance type for the application servers."
+  type        = string
+  default     = "t3.micro" # Align with RDS free tier aim, consider t4g.micro for Graviton
+}
+
+variable "ami_owner" {
+  description = "Owner alias for the AMI lookup (e.g., 'amazon', 'self', 'aws-marketplace')."
+  type        = string
+  default     = "amazon"
+}
+
+variable "ami_filter_name" {
+  description = "Name filter for AMI lookup (e.g., 'amzn2-ami-hvm-*-x86_64-gp2')."
+  type        = string
+  default     = "amzn2-ami-hvm-*-x86_64-gp2" # Example for Amazon Linux 2
+  # Use 'ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*' for Ubuntu 20.04 LTS
+}
+
+variable "app_source_url" {
+  description = "URL to the application source code archive (e.g., zip/tar.gz in S3 or a Git repo URL)."
+  type        = string
+  # Example: "https://github.com/your-username/your-simple-app.git"
+  # For this project, you NEED to provide a URL to a simple web app boilerplate
+  # that reads DB config from environment variables and listens on port 3000.
+  default = "https://github.com/hashicorp/learn-terraform-provision-ansible-ec2.git" # Placeholder! Use a real simple webapp
+}
+
+variable "app_port" {
+  description = "Port the application listens on within the EC2 instance."
+  type        = number
+  default     = 3000 # Must match the ALB Target Group port
+}
+
+# variables.tf (Add this variable)
+
+variable "acm_certificate_arn" {
+  description = "ARN of the ACM certificate for the ALB HTTPS listener."
+  type        = string
+  default     = "" # IMPORTANT: Replace with your actual ACM certificate ARN
+  # Example: "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
