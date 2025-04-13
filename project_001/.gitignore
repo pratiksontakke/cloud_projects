@@ -138,3 +138,4 @@ dist
 # personal ignore
 app/config/db.config.js
 terraform/.terraform/
+terraform/.terraform.lock.hcl

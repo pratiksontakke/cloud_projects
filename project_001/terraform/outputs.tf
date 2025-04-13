@@ -83,6 +83,7 @@ output "db_credentials_secret_arn" {
 output "db_credentials_secret_password" {
   description = "password of db"
   value       = aws_db_instance.main.password
+  sensitive = true
 }
 
 output "db_credentials_secret_username" {

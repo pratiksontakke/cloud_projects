@@ -73,7 +73,7 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_db_instance" "main" {
   identifier           = "${var.project_name}-${var.environment}-db" # Unique identifier for the instance
   engine               = "postgres"
-  engine_version       = "15.6" # Choose a recent, supported version
+  engine_version       = "15.12" # Choose a recent, supported version
   instance_class       = var.db_instance_class
   allocated_storage    = var.db_allocated_storage
   storage_type         = "gp3" # General Purpose SSD v3 - good balance, often free tier eligible storage type

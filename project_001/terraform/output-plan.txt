@@ -1,0 +1,31 @@
+alb_dns_name = "project01-ALB-214395341.ap-south-1.elb.amazonaws.com"
+alb_security_group_id = "sg-0c6286dc4755fe2a7"
+alb_target_group_arn = "arn:aws:elasticloadbalancing:ap-south-1:225989359549:targetgroup/project01-TG/f49f34fae3e26448"
+alb_zone_id = "ZP97RAFLXTNZK"
+autoscaling_group_name = "project01-dev-ASG-20250413041521884900000008"
+availability_zones_used = tolist([
+  "ap-south-1a",
+  "ap-south-1b",
+  "ap-south-1c",
+])
+cloudwatch_dashboard_name = "project01-dev-Dashboard"
+db_credentials_secret_arn = "arn:aws:secretsmanager:ap-south-1:225989359549:secret:project01-dev-db-credentials-rzIEih"
+db_credentials_secret_password = <sensitive>
+db_credentials_secret_username = "dbadmin"
+db_instance_endpoint = <sensitive>
+db_instance_name = "project01db"
+db_instance_port = 5432
+db_security_group_id = "sg-0bad2ff1ad17e9ad1"
+ec2_security_group_id = "sg-0477286a5fdc4e674"
+nat_gateway_eip = "13.127.40.82"
+private_subnet_ids = [
+  "subnet-057e5b0df8442dff0",
+  "subnet-0c9263c550b6d7909",
+  "subnet-0cd18f1e5f9f09f28",
+]
+public_subnet_ids = [
+  "subnet-00e57939e76c4ea89",
+  "subnet-0d87f572314c8b1a3",
+  "subnet-027aae62cf218b1fa",
+]
+vpc_id = "vpc-088862970b8b7004b"

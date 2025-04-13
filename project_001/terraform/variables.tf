@@ -66,6 +66,13 @@ variable "db_allocated_storage" {
   # Free Tier typically includes up to 20GB of General Purpose (SSD) storage.
 }
 
+variable "db_port" {
+  description = "db port."
+  type        = number
+  default     = 5432
+  # Free Tier typically includes up to 20GB of General Purpose (SSD) storage.
+}
+
 # variables.tf (Add these variables)
 
 variable "ec2_instance_type" {
@@ -81,10 +88,11 @@ variable "ami_owner" {
 }
 
 variable "ami_filter_name" {
-  description = "Name filter for AMI lookup (e.g., 'amzn2-ami-hvm-*-x86_64-gp2')."
+  description = "Name filter pattern for the AMI lookup. Uses wildcards."
   type        = string
-  default     = "Amazon Linux 2023 AMI" # Example for Amazon Linux 2
-  # Use 'ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*' for Ubuntu 20.04 LTS
+  # Pattern for Amazon Linux 2023 x86_64 HVM EBS AMIs
+  # Example matched name: al2023-ami-2023.4.20240416.0-kernel-6.1-x86_64
+  default     = "al2023-ami-*-kernel-*-x86_64"
 }
 
 variable "app_source_url" {
@@ -99,7 +107,7 @@ variable "app_source_url" {
 variable "app_port" {
   description = "Port the application listens on within the EC2 instance."
   type        = number
-  default     = 3000 # Must match the ALB Target Group port
+  default     = 8080 # Must match the ALB Target Group port
 }
 
 # variables.tf (Add this variable)
