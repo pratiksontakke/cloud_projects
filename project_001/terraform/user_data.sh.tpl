@@ -56,9 +56,10 @@ ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/node /usr/bin/node
 ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/npm /usr/bin/npm
 
 # --- Get Application Code ---
-APP_CLONE_DIR="/opt/app_repo" # Clone repo here
-APP_DIR="/opt/app_repo/project_001" # Actual application directory
-echo "Creating application directory structure: $APP_DIR"
+APP_CLONE_DIR="/opt/app_repo" # Clone repo root here
+# CORRECTED: Point to the specific app directory within the cloned repo
+APP_DIR="/opt/app_repo/project_001"
+echo "Creating application clone directory: $APP_CLONE_DIR"
 mkdir -p $APP_CLONE_DIR
 chown ec2-user:ec2-user $APP_CLONE_DIR
 cd $APP_CLONE_DIR
@@ -99,8 +100,8 @@ cat <<EOF > $APP_DIR/.env
 # Database Configuration
 DB_HOST=${db_host}
 DB_PORT=${db_port}
-DB_USER=${DB_USER}
-DB_PASSWORD=${DB_PASS} # Note: Use DB_PASS, not PASSWORD, to match the modified db.config.js example
+DB_USER=$${DB_USER}
+DB_PASSWORD=$${DB_PASS} # Note: Use DB_PASS, not PASSWORD, to match the modified db.config.js example
 DB_NAME=${db_name}
 DB_SSL_REQUIRE=true # Explicitly set based on RDS defaults
 
@@ -110,6 +111,7 @@ PORT=${app_port}
 # Node Environment (Optional but recommended)
 NODE_ENV=production
 EOF
+
 chown ec2-user:ec2-user $APP_DIR/.env # Set ownership for the .env file
 echo ".env file created."
 
@@ -137,9 +139,9 @@ After=network-online.target amazon-cloudwatch-agent.service # Start after CW Age
 [Service]
 User=ec2-user # Run as this user
 Group=ec2-user # Run as this group
-WorkingDirectory=${APP_DIR} # Set working directory to the app folder
-EnvironmentFile=${APP_DIR}/.env # Load environment variables from .env file
-ExecStart=${NODE_EXEC_PATH} server.js # Execute the main server file
+WorkingDirectory=$${APP_DIR} # Set working directory to the app folder
+EnvironmentFile=$${APP_DIR}/.env # Load environment variables from .env file
+ExecStart=$${NODE_EXEC_PATH} server.js # Execute the main server file
 Restart=on-failure
 StandardOutput=journal # Log stdout to journald
 StandardError=journal  # Log stderr to journald

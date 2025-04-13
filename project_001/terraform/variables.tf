@@ -101,7 +101,7 @@ variable "app_source_url" {
   # Example: "https://github.com/your-username/your-simple-app.git"
   # For this project, you NEED to provide a URL to a simple web app boilerplate
   # that reads DB config from environment variables and listens on port 3000.
-  default = "https://github.com/pratiksontakke/cloud_projects/tree/master/project_001" # Placeholder! Use a real simple webapp
+  default = "https://github.com/pratiksontakke/cloud_projects.git" # Placeholder! Use a real simple webapp
 }
 
 variable "app_port" {
@@ -117,4 +117,16 @@ variable "acm_certificate_arn" {
   type        = string
   default     = "" # IMPORTANT: Replace with your actual ACM certificate ARN
   # Example: "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
+
+variable "bastion_instance_type" {
+  description = "EC2 instance type for the Bastion Host."
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "ec2_key_name" {
+  description = "Name of the existing EC2 Key Pair to associate with instances."
+  type        = string
+  default     = "aws_linux_mumbai" # Your pre-existing key name
 }

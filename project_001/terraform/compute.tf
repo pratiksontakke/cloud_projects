@@ -40,13 +40,12 @@ resource "aws_security_group" "ec2" {
   # (Optional/Modify) Allow SSH - Recommended: Use SSM Session Manager instead.
   # If keeping SSH, restrict to YOUR IP address.
   ingress {
-    description = "Allow SSH from admin IP"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    # !! IMPORTANT: Replace 0.0.0.0/0 with your specific IP CIDR, e.g., ["YOUR_IP/32"] !!
-    # Or remove this block if using SSM Session Manager
-    cidr_blocks = ["0.0.0.0/0"] # <<<--- CHANGE THIS OR REMOVE
+    description     = "Allow SSH from Bastion SG"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    # Source is the Bastion SG defined in bastion.tf
+    security_groups = [aws_security_group.bastion.id]
   }
 
   # Egress: Allow outbound traffic to the RDS Security Group on the PostgreSQL port
@@ -82,6 +81,9 @@ resource "aws_launch_template" "app" {
   description   = "Launch template for ${var.project_name} instances"
   image_id      = data.aws_ami.latest_ami.id
   instance_type = var.ec2_instance_type # Ensure var.ec2_instance_type is defined
+
+  # Key Pair: Associate the existing key pair for SSH login
+  key_name = var.ec2_key_name
 
   # Assumes aws_iam_instance_profile.ec2_profile defined in iam.tf
   iam_instance_profile {

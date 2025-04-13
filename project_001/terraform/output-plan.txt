@@ -29,3 +29,11 @@ public_subnet_ids = [
   "subnet-027aae62cf218b1fa",
 ]
 vpc_id = "vpc-088862970b8b7004b"
+
+
+pratik@asus:/media/pratik/Storage/Cloud_Engineer/cloud_projects/project_001/terraform$ aws secretsmanager delete-secret   --secret-id project01-dev-db-credentials   --force-delete-without-recovery
+{
+    "ARN": "arn:aws:secretsmanager:ap-south-1:225989359549:secret:project01-dev-db-credentials-iFokRF",
+    "Name": "project01-dev-db-credentials",
+    "DeletionDate": "2025-04-13T17:34:57.192000+05:30"
+}
