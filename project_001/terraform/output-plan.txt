@@ -37,3 +37,5 @@ pratik@asus:/media/pratik/Storage/Cloud_Engineer/cloud_projects/project_001/terr
     "Name": "project01-dev-db-credentials",
     "DeletionDate": "2025-04-13T17:34:57.192000+05:30"
 }
+
+cat /var/log/cloud-init-output.log

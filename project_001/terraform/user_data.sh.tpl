@@ -128,7 +128,7 @@ echo "Application dependencies installed."
 
 # --- Setup Application as a Service (using systemd) ---
 echo "Setting up systemd service for the web application..."
-NODE_EXEC_PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin/node" # Get correct Node path
+#NODE_EXEC_PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin/node" # Get correct Node path
 
 cat <<EOF > /etc/systemd/system/webapp.service
 [Unit]
@@ -141,7 +141,7 @@ User=ec2-user # Run as this user
 Group=ec2-user # Run as this group
 WorkingDirectory=$${APP_DIR} # Set working directory to the app folder
 EnvironmentFile=$${APP_DIR}/.env # Load environment variables from .env file
-ExecStart=$${NODE_EXEC_PATH} server.js # Execute the main server file
+ExecStart=/usr/bin/node server.js # Execute the main server file
 Restart=on-failure
 StandardOutput=journal # Log stdout to journald
 StandardError=journal  # Log stderr to journald
