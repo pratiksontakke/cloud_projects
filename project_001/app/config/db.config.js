@@ -2,6 +2,8 @@
 // You might need to install dotenv: npm install dotenv
 // require('dotenv').config(); // Uncomment if you want to use a .env file for local dev
 
+console.log(`INFO: db.config.js using DB_HOST: ${process.env.DB_HOST || "localhost (default)"}`);
+
 module.exports = {
   // Read values from environment variables
   HOST: process.env.DB_HOST || "localhost", // Default for local dev if needed
