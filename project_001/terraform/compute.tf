@@ -48,15 +48,6 @@ resource "aws_security_group" "ec2" {
     security_groups = [aws_security_group.bastion.id]
   }
 
-  # Egress: Allow outbound traffic to the RDS Security Group on the PostgreSQL port
-  egress {
-    description     = "Allow outbound traffic to RDS DB"
-    from_port       = var.db_port # Ensure var.db_port is defined (e.g., 5432 or 3306)
-    to_port         = var.db_port
-    protocol        = "tcp"
-    security_groups = [aws_security_group.rds.id] # Assumes aws_security_group.rds defined in database.tf
-  }
-
   # Egress: Allow all other outbound traffic (via NAT GW)
   egress {
     description      = "Allow all other outbound traffic"

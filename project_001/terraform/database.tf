@@ -41,26 +41,6 @@ resource "aws_security_group" "rds" {
   description = "Allow inbound traffic from EC2 instances to PostgreSQL"
   vpc_id      = aws_vpc.main.id # Must be in the same VPC
 
-  # Ingress Rule (Placeholder - will be updated or referenced by EC2 SG):
-  # We don't know the EC2 SG ID yet. We define the DB SG now and allow EC2 SG outbound access TO this SG ID later.
-  # Alternatively, you could add an ingress rule here referencing a variable or data source for the EC2 SG ID once created.
-  # For now, we define NO ingress rules here initially. We'll control access via the EC2 SG's Egress rules pointing to this SG ID.
-
-  # Egress Rule: Typically not needed for RDS unless it needs to access external resources (rare).
-  # Default allows all outbound, which is usually fine.
-
-  tags = {
-    Name        = "${var.project_name}-RDS-SG"
-    Environment = var.environment
-    Terraform   = "true"
-  }
-}
-
-resource "aws_security_group" "rds" {
-  name        = "${var.project_name}-RDS-SG"
-  description = "Allow inbound traffic from EC2 instances to PostgreSQL"
-  vpc_id      = aws_vpc.main.id # Must be in the same VPC
-
   ingress {
     description = "Allow PostgreSQL access from EC2 SG"
     # Use the variable defined for the database port (e.g., 5432)
@@ -72,13 +52,14 @@ resource "aws_security_group" "rds" {
     security_groups = [aws_security_group.ec2.id]
   }
 
-
   # Egress Rule: Typically not needed for RDS. Default allows all outbound.
   egress {
+    description      = "Allow all other outbound traffic"
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
