@@ -63,7 +63,7 @@ resource "aws_lb" "main" {
 # RETAIN THIS (Ensure port 3000 matches your app)
 resource "aws_lb_target_group" "app" {
   name        = "${var.project_name}-TG"
-  port        = 3000 # Application listens on this port inside the EC2 instance
+  port        = var.app_port # Application listens on this port inside the EC2 instance
   protocol    = "HTTP" # ALB talks HTTP to the instance
   vpc_id      = aws_vpc.main.id
   target_type = "instance"
