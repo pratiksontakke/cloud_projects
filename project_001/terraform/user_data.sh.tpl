@@ -95,9 +95,9 @@ cat <<EOF > $APP_DIR/.env
 DB_HOST=${db_host}
 DB_PORT=${db_port}
 DB_USER=$${DB_USER}
-DB_PASSWORD=$${DB_PASS} # Note: Use DB_PASS, not PASSWORD, to match the modified db.config.js example
+DB_PASSWORD=$${DB_PASS}
 DB_NAME=${db_name}
-DB_SSL_REQUIRE=true # Explicitly set based on RDS defaults
+DB_SSL_REQUIRE=true
 
 # Application Port
 PORT=${app_port}

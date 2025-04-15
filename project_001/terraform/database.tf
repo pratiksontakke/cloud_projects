@@ -56,6 +56,38 @@ resource "aws_security_group" "rds" {
   }
 }
 
+resource "aws_security_group" "rds" {
+  name        = "${var.project_name}-RDS-SG"
+  description = "Allow inbound traffic from EC2 instances to PostgreSQL"
+  vpc_id      = aws_vpc.main.id # Must be in the same VPC
+
+  ingress {
+    description = "Allow PostgreSQL access from EC2 SG"
+    # Use the variable defined for the database port (e.g., 5432)
+    from_port   = var.db_port
+    to_port     = var.db_port
+    protocol    = "tcp"
+    # Reference the Security Group ID of your EC2 application instances
+    # Assumes you have resource "aws_security_group" "ec2" defined in compute.tf
+    security_groups = [aws_security_group.ec2.id]
+  }
+
+
+  # Egress Rule: Typically not needed for RDS. Default allows all outbound.
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "${var.project_name}-RDS-SG"
+    Environment = var.environment
+    Terraform   = "true"
+  }
+}
+
 # --- DB Subnet Group ---
 # Logic: Tells RDS which subnets to potentially place DB instances/replicas in. Must include >1 AZ for Multi-AZ. Use PRIVATE subnets.
 resource "aws_db_subnet_group" "default" {
