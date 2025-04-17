@@ -50,7 +50,7 @@ ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/pm2 /usr/bin/pm2
 echo "PM2 installed."
 
 # --- Get Application Code ---
-APP_CLONE_DIR="/opt/app_repo/backend" # Clone repo root here
+APP_CLONE_DIR="/opt/app_repo/" # Clone repo root here
 # CORRECTED: Point to the specific app directory within the cloned repo
 APP_DIR="/opt/app_repo/project_001/backend"
 echo "Creating application clone directory: $APP_CLONE_DIR"
