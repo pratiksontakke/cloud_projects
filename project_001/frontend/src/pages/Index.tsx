@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-require('dotenv').config();
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";

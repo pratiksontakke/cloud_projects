@@ -136,6 +136,6 @@ dist
 .pnp.*
 
 # personal ignore
-app/config/db.config.js
+# app/config/db.config.js
 terraform/.terraform/
 terraform/.terraform.lock.hcl
