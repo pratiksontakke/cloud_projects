@@ -117,3 +117,21 @@ output "bastion_public_ip" {
   description = "Public IP address of the Bastion Host."
   value       = aws_instance.bastion.public_ip
 }
+
+
+# outputs.tf (Add these)
+
+output "frontend_s3_bucket_name" {
+  description = "Name of the S3 bucket storing frontend assets."
+  value       = aws_s3_bucket.frontend.bucket
+}
+
+output "frontend_cf_distribution_id" {
+  description = "ID of the CloudFront distribution for the frontend."
+  value       = aws_cloudfront_distribution.frontend.id
+}
+
+output "frontend_cf_domain_name" {
+  description = "Domain name of the CloudFront distribution (frontend URL)."
+  value       = aws_cloudfront_distribution.frontend.domain_name
+}
