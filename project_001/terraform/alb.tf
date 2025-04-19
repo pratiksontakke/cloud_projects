@@ -94,43 +94,38 @@ resource "aws_lb_target_group" "app" {
 # --- ALB Listener for HTTPS Traffic (Conditional) ---
 # RETAIN THIS
 resource "aws_lb_listener" "https" {
-  # Only create this listener if an ACM certificate ARN is provided
-  count = var.acm_certificate_arn != "" ? 1 : 0
+  # Remove count - always create if using custom domain setup
+  # count = var.acm_certificate_arn != "" ? 1 : 0 # REMOVE THIS LINE
 
   load_balancer_arn = aws_lb.main.arn
   port              = 443
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08" # Standard security policy
-  certificate_arn   = var.acm_certificate_arn    # Reference the variable
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  # Use the ARN from the validated certificate resource
+  certificate_arn   = aws_acm_certificate_validation.main.certificate_arn # USE VALIDATED ARN
 
-  # Default Action: Forward HTTPS traffic to the application target group
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
   }
 }
 
-# --- ALB Listener for HTTP Traffic (Conditional Redirect/Forward) ---
-# RETAIN THIS VERSION
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = 80
   protocol          = "HTTP"
 
-  # Default Action: Redirect HTTP to HTTPS if HTTPS listener is enabled (cert provided),
-  # otherwise, forward HTTP directly to the target group.
+  # Default Action: ALWAYS redirect to HTTPS in this setup
   default_action {
-    type = var.acm_certificate_arn != "" ? "redirect" : "forward"
+    type = "redirect" # CHANGE from conditional to always redirect
 
-    # Redirect config (only applies if type is "redirect")
     redirect {
       port        = "443"
       protocol    = "HTTPS"
-      status_code = "HTTP_301" # Permanent redirect
+      status_code = "HTTP_301"
     }
 
-    # Target group ARN (only applies if type is "forward")
-    # Set target_group_arn ONLY when forwarding, otherwise it conflicts with redirect block.
-    target_group_arn = var.acm_certificate_arn != "" ? null : aws_lb_target_group.app.arn
+    # target_group_arn is no longer needed here
+    # target_group_arn = var.acm_certificate_arn != "" ? null : aws_lb_target_group.app.arn # REMOVE THIS LINE
   }
 }

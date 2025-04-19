@@ -111,14 +111,6 @@ variable "app_port" {
 }
 
 # variables.tf (Add this variable)
-
-variable "acm_certificate_arn" {
-  description = "ARN of the ACM certificate for the ALB HTTPS listener."
-  type        = string
-  default     = "" # IMPORTANT: Replace with your actual ACM certificate ARN
-  # Example: "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-}
-
 variable "bastion_instance_type" {
   description = "EC2 instance type for the Bastion Host."
   type        = string
@@ -129,4 +121,23 @@ variable "ec2_key_name" {
   description = "Name of the existing EC2 Key Pair to associate with instances."
   type        = string
   default     = "aws_linux_mumbai" # Your pre-existing key name
+}
+
+variable "domain_name" {
+  description = "The primary custom domain name."
+  type        = string
+  default     = "pratiksontakke.art"
+}
+
+variable "api_subdomain" {
+  description = "Subdomain for the backend API."
+  type        = string
+  default     = "api" # Results in api.pratiksontakke.art
+}
+
+# Remove the default from this variable - its value will come from the created cert
+variable "acm_certificate_arn" {
+  description = "ARN of the ACM certificate for the ALB HTTPS listener (Managed by Terraform)."
+  type        = string
+  # No default needed now
 }

@@ -11,8 +11,8 @@ export interface Tutorial {
 }
 
 // This would be replaced by your actual API URL when deploying
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8081/api/tutorials";
-
+const API_URL = `${import.meta.env.VITE_API_URL}/api/tutorials` || "http://localhost:8081/api/tutorials";
+console.log("API_URL : " + API_URL);
 export const tutorialService = {
   // Get all tutorials with optional title filter
   async getAll(title?: string): Promise<Tutorial[]> {
