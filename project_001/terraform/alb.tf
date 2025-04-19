@@ -95,7 +95,6 @@ resource "aws_lb_target_group" "app" {
 # RETAIN THIS
 resource "aws_lb_listener" "https" {
   # Remove count - always create if using custom domain setup
-  # count = var.acm_certificate_arn != "" ? 1 : 0 # REMOVE THIS LINE
 
   load_balancer_arn = aws_lb.main.arn
   port              = 443
@@ -115,17 +114,15 @@ resource "aws_lb_listener" "http" {
   port              = 80
   protocol          = "HTTP"
 
-  # Default Action: ALWAYS redirect to HTTPS in this setup
+  # Default Action: ALWAYS redirect to HTTPS
   default_action {
-    type = "redirect" # CHANGE from conditional to always redirect
+    type = "redirect" # Only specify redirect type
 
-    redirect {
+    redirect {         # Only include the redirect block
       port        = "443"
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
-
-    # target_group_arn is no longer needed here
-    # target_group_arn = var.acm_certificate_arn != "" ? null : aws_lb_target_group.app.arn # REMOVE THIS LINE
+    # NO target_group_arn or conditional logic here
   }
 }

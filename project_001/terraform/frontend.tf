@@ -126,11 +126,12 @@ resource "aws_cloudfront_distribution" "frontend" {
   # --- Viewer Certificate ---
   # Use default CloudFront certificate for *.cloudfront.net domain
  # Use ACM certificate instead of default
-  viewer_certificate {
-    # cloudfront_default_certificate = true # REMOVE OR COMMENT OUT
-    acm_certificate_arn = aws_acm_certificate_validation.main.certificate_arn # Use validated cert
+ viewer_certificate {
+    # Correctly references the validated certificate ARN from dns_certs.tf
+    acm_certificate_arn = aws_acm_certificate_validation.main.certificate_arn # <-- CORRECT REFERENCE
     ssl_support_method  = "sni-only"        # Standard method
     minimum_protocol_version = "TLSv1.2_2021" # Recommended minimum TLS version
+    # cloudfront_default_certificate = true # Ensure this is removed or false
   }
 
   # --- Other Settings ---

@@ -135,9 +135,9 @@ variable "api_subdomain" {
   default     = "api" # Results in api.pratiksontakke.art
 }
 
-# Remove the default from this variable - its value will come from the created cert
-variable "acm_certificate_arn" {
-  description = "ARN of the ACM certificate for the ALB HTTPS listener (Managed by Terraform)."
-  type        = string
-  # No default needed now
-}
+# # Remove the default from this variable - its value will come from the created cert
+# variable "acm_certificate_arn" {
+#   description = "ARN of the ACM certificate for the ALB HTTPS listener (Managed by Terraform)."
+#   type        = string
+#   # No default needed now
+# }
