@@ -126,7 +126,7 @@ variable "ec2_key_name" {
 variable "domain_name" {
   description = "The primary custom domain name."
   type        = string
-  default     = "pratiksontakke.art"
+  default     = "pratiksontakke.store"
 }
 
 variable "api_subdomain" {
