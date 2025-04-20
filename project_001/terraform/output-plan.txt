@@ -39,3 +39,6 @@ pratik@asus:/media/pratik/Storage/Cloud_Engineer/cloud_projects/project_001/terr
 }
 
 cat /var/log/cloud-init-output.log
+
+
+aws s3 sync ./dist/ s3://project01-dev-frontend-assets-e328f765 --delete

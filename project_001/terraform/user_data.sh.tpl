@@ -102,6 +102,9 @@ DB_SSL_REQUIRE=true
 # Application Port
 PORT=${app_port}
 
+# CORS Origin - SET THIS CORRECTLY!
+CORS_ORIGIN=https://pratiksontakke.store
+
 # Node Environment (Optional but recommended)
 NODE_ENV=production
 EOF
