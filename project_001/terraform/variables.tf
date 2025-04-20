@@ -135,9 +135,16 @@ variable "api_subdomain" {
   default     = "api" # Results in api.pratiksontakke.art
 }
 
-# # Remove the default from this variable - its value will come from the created cert
-# variable "acm_certificate_arn" {
-#   description = "ARN of the ACM certificate for the ALB HTTPS listener (Managed by Terraform)."
-#   type        = string
-#   # No default needed now
-# }
+variable "alb_acm_certificate_arn_ap_south_1" {
+  description = "ARN of the ACM certificate in ap-south-1 for the ALB."
+  type        = string
+  default = "arn:aws:acm:ap-south-1:225989359549:certificate/8d553b59-9ba3-46ee-ada6-925f1bdb92c7"
+  # You will provide this value manually after validation
+}
+
+variable "cloudfront_acm_certificate_arn_us_east_1" {
+  description = "ARN of the ACM certificate in us-east-1 for CloudFront."
+  type        = string
+  default = "arn:aws:acm:us-east-1:225989359549:certificate/fca06731-6545-47f1-85ff-474fad22ad90"
+  # You will provide this value manually after validation
+}

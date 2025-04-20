@@ -101,7 +101,7 @@ resource "aws_lb_listener" "https" {
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   # Use the ARN from the validated certificate resource
-  certificate_arn   = aws_acm_certificate_validation.main.certificate_arn # USE VALIDATED ARN
+  certificate_arn   = var.alb_acm_certificate_arn_ap_south_1 # USE VALIDATED ARN
 
   default_action {
     type             = "forward"
